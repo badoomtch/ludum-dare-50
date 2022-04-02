@@ -30,7 +30,6 @@ public class playerStats : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         hungerLevel--;
-        //Debug.Log(hungerLevel);
         StartCoroutine(hungerDown());
     }
 
@@ -39,7 +38,6 @@ public class playerStats : MonoBehaviour
         if(warmthTrigger.GetComponent<WarmthTrigger>().isWarm == false)
         {
             warmthLevel--;
-            Debug.Log("warmth " + warmthLevel);
             yield return new WaitForSeconds(1f);
             StartCoroutine(warmthDown());
         }
@@ -53,7 +51,6 @@ public class playerStats : MonoBehaviour
             {
                 yield return new WaitForSeconds(1f);
                 warmthLevel += 2f;
-                Debug.Log("warmth " + warmthLevel);
                 StartCoroutine(warmthUp());
             }
         }

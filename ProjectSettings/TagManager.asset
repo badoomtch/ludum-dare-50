@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Fish
   - Wood
+  - Furnace
+  - cookingFish
+  - cookedFish
   layers:
   - Default
   - TransparentFX
