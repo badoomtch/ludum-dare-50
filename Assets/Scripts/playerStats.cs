@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class playerStats : MonoBehaviour
 {
     public float hungerLevel;
+    public float hungerLevelMax;
     public float warmthLevel;
     public float warmthMax;
 
@@ -24,6 +25,15 @@ public class playerStats : MonoBehaviour
     {
         hungerSlider.value = hungerLevel;
         warmthSlider.value = warmthLevel;
+    }
+
+    public void eatFood(float healAmount)
+    {
+        hungerLevel += healAmount;
+        if (hungerLevel > hungerLevelMax)
+        {
+            hungerLevel = hungerLevelMax;
+        }
     }
 
     IEnumerator hungerDown()

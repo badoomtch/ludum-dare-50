@@ -9,11 +9,12 @@ TagManager:
   - Furnace
   - cookingFish
   - cookedFish
+  - FryingPan
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ignorelight
   - Water
   - UI
   - 

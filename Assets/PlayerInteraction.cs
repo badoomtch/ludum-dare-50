@@ -30,81 +30,89 @@ public class PlayerInteraction : MonoBehaviour
 
 
         RaycastHit hit;
-        Physics.Raycast(transform.position, transform.forward, out hit, interactionDistance);
-
-        
-        if (hit.transform.CompareTag("Fish"))
+        if(Physics.Raycast(transform.position, transform.forward, out hit, interactionDistance))
         {
-            helpText.text = "Click to pick up";
-            if (Input.GetMouseButtonDown(0))
-            {   
-                caughtFish++;
-                Destroy(hit.transform.gameObject);
-            }
-        }
-        else if (hit.transform.CompareTag("Wood"))
-        {
-            helpText.text = "Click to pick up";
-            if (Input.GetMouseButtonDown(0))
-            {   
-                woodCollected++;
-                Destroy(hit.transform.gameObject);
-            }
-        }
-        else if (hit.transform.CompareTag("Furnace"))
-        {
-            if(caughtFish > 0 && !furnace.GetComponent<cookingScript>().isCooking)
+            if (hit.transform.CompareTag("Fish"))
             {
-                helpText.text = "Cook fish";
-                if (Input.GetMouseButtonDown(0))
-                {
-                    furnace.GetComponent<cookingScript>().isCooking = true;
-                    StartCoroutine(furnace.GetComponent<cookingScript>().startCooking());
-                    caughtFish--;
-                }
-            }
-            else if(furnace.GetComponent<cookingScript>().isCooking)
-            {
-                helpText.text = "You can only cook one fish at a time";
-            }
-            else
-            {
-                helpText.text = "You have no fish to cook";
-            }
-            
-        }
-        else if (hit.transform.CompareTag("cookingFish"))
-        {
-            if (furnace.GetComponent<cookingScript>().hasCooked == false)
-            {
-                helpText.text = "Pick up raw fish";
+                helpText.text = "Click to pick up";
                 if (Input.GetMouseButtonDown(0))
                 {   
                     caughtFish++;
-                    furnace.GetComponent<cookingScript>().StopCooking();
+                    Destroy(hit.transform.gameObject);
                 }
             }
-            else if(furnace.GetComponent<cookingScript>().hasCooked == true)
+            else if (hit.transform.CompareTag("Wood"))
             {
-                helpText.text = "Prepare cooked fish";
+                helpText.text = "Click to pick up";
                 if (Input.GetMouseButtonDown(0))
-                {
-                    furnace.GetComponent<cookingScript>().PrepareCookedFish();
+                {   
+                    woodCollected++;
+                    Destroy(hit.transform.gameObject);
                 }
             }
-            else if(furnace.GetComponent<cookingScript>().hasBurned == true)
+            else if (hit.transform.CompareTag("FryingPan"))
             {
-                helpText.text = "Dispose of burned fish";
-                if (Input.GetMouseButtonDown(0))
+                if(caughtFish > 0 && !furnace.GetComponent<cookingScript>().isCooking)
                 {
-                    furnace.GetComponent<cookingScript>().StopCooking();
+                    helpText.text = "Cook fish";
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        furnace.GetComponent<cookingScript>().isCooking = true;
+                        StartCoroutine(furnace.GetComponent<cookingScript>().startCooking());
+                        caughtFish--;
+                    }
+                }
+                else if(furnace.GetComponent<cookingScript>().isCooking)
+                {
+                    helpText.text = "You can only cook one fish at a time";
+                }
+                else
+                {
+                    helpText.text = "You have no fish to cook";
+                }
+                
+            }
+            else if (hit.transform.CompareTag("cookingFish"))
+            {
+                if (furnace.GetComponent<cookingScript>().hasCooked == false && furnace.GetComponent<cookingScript>().hasBurned == false)
+                {
+                    helpText.text = "Pick up raw fish";
+                    if (Input.GetMouseButtonDown(0))
+                    {   
+                        caughtFish++;
+                        furnace.GetComponent<cookingScript>().StopCooking();
+                    }
+                }
+                else if(furnace.GetComponent<cookingScript>().hasCooked == true)
+                {
+                    helpText.text = "Prepare cooked fish";
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        furnace.GetComponent<cookingScript>().PrepareCookedFish();
+                    }
+                }
+                else if(furnace.GetComponent<cookingScript>().hasBurned == true)
+                {
+                    helpText.text = "Dispose of burned fish";
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        furnace.GetComponent<cookingScript>().StopCooking();
+                    }
                 }
             }
-            
-        }
-        else
-        {
-            helpText.text = "";
+            else if (hit.transform.CompareTag("cookedFish"))
+            {
+                helpText.text = "Click to eat fish";
+                if (Input.GetMouseButtonDown(0))
+                {   
+                    this.GetComponentInParent<playerStats>().eatFood(10f);
+                    Destroy(hit.transform.gameObject);
+                }
+            }
+            else
+            {
+                helpText.text = "";
+            }
         }
     }
 

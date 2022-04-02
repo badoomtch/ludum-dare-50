@@ -13,6 +13,8 @@ public class cookingScript : MonoBehaviour
 
     public GameObject cookingFish;
 
+    public GameObject cookingParticle;
+
     //Instantiatable objects
     public Rigidbody cookedFish;
 
@@ -21,6 +23,7 @@ public class cookingScript : MonoBehaviour
     {
         furnaceLight.SetActive(false);
         cookingFish.SetActive(false);
+        cookingParticle.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,6 +35,7 @@ public class cookingScript : MonoBehaviour
     {
         furnaceLight.SetActive(false);
         cookingFish.SetActive(false);
+        cookingParticle.SetActive(false);
         isCooking = false;
         cookingFish.GetComponent<Renderer>().material.color = new Color32(255, 255, 255, 255);
         StopCoroutine(startCooking());
@@ -40,6 +44,7 @@ public class cookingScript : MonoBehaviour
 
     public IEnumerator startCooking()
     {
+        cookingParticle.SetActive(true);
         furnaceLight.SetActive(true);
         cookingFish.SetActive(true);
         float random = Random.Range(10f,21f);
@@ -58,6 +63,7 @@ public class cookingScript : MonoBehaviour
             hasCooked = false;
             hasBurned = true;
             furnaceLight.SetActive(false);
+            cookingParticle.SetActive(false);
         }
     }
 
