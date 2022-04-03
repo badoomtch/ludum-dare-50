@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,15 +11,32 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI winDeathText;
 
     public bool hasWon;
+    public bool isPaused;
+
+    public GameObject playerCamera;
+    public GameObject player;
+    public GameObject pauseMenu;
 
     public float timeRemaining = 10;
     public bool timerIsRunning = false;
     public TextMeshProUGUI timeText;
 
+    public Slider sensSlider;
+    public Slider fovSlider;
+    public Slider volumeSlider;
+    public float sensValue;
+    public float gameVolume;
+    public float fovValue;
+
     // Start is called before the first frame update
     void Start()
     {
+        pauseMenu.SetActive(false);
+        sensSlider.value = player.GetComponent<SUPERCharacter.SUPERCharacterAIO>().Sensitivity;
+        fovSlider.value = playerCamera.GetComponent<Camera>().fieldOfView;
+
         deathScreenUI.SetActive(false);
+
         Time.timeScale = 1;
         timerIsRunning = true;
     }
@@ -26,6 +44,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerCamera.GetComponent<Camera>().fieldOfView = fovSlider.value;
+        player.GetComponent<SUPERCharacter.SUPERCharacterAIO>().Sensitivity = sensSlider.value;
+
          if (timerIsRunning)
         {
             if (timeRemaining > 0)
@@ -40,6 +61,27 @@ public class GameManager : MonoBehaviour
                 timerIsRunning = false;
                 playerWin();
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(!isPaused)
+            {
+                Time.timeScale = 0;
+                pauseMenu.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                isPaused = true;
+            }
+            else
+            {
+                Time.timeScale = 1;
+                pauseMenu.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                isPaused = false;
+            }
+
         }
     }
 
