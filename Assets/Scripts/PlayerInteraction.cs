@@ -53,7 +53,11 @@ public class PlayerInteraction : MonoBehaviour
             }
             else if (hit.transform.CompareTag("FryingPan"))
             {
-                if(caughtFish > 0 && !furnace.GetComponent<cookingScript>().isCooking && furnace.GetComponent<cookingScript>().fuelValue > 0)
+                if(furnace.GetComponent<cookingScript>().isCooking && caughtFish > 0)
+                {
+                    helpText.text = "You can only cook one fish at a time";
+                }
+                else if(caughtFish > 0 && !furnace.GetComponent<cookingScript>().isCooking && furnace.GetComponent<cookingScript>().fuelValue > 0)
                 {
                     helpText.text = "Cook fish";
                     if (Input.GetMouseButtonDown(0))
@@ -66,10 +70,6 @@ public class PlayerInteraction : MonoBehaviour
                 else if(caughtFish > 0 && !furnace.GetComponent<cookingScript>().isCooking && furnace.GetComponent<cookingScript>().fuelValue <= 0)
                 {
                     helpText.text = "You have no fuel";
-                }
-                else if(furnace.GetComponent<cookingScript>().isCooking)
-                {
-                    helpText.text = "You can only cook one fish at a time";
                 }
                 else
                 {
@@ -110,7 +110,7 @@ public class PlayerInteraction : MonoBehaviour
                 helpText.text = "Click to eat fish";
                 if (Input.GetMouseButtonDown(0))
                 {   
-                    this.GetComponentInParent<playerStats>().eatFood(50f);
+                    this.GetComponentInParent<playerStats>().eatFood(70f);
                     Destroy(hit.transform.gameObject);
                 }
             }

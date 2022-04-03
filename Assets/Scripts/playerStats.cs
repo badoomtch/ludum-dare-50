@@ -77,8 +77,8 @@ public class playerStats : MonoBehaviour
         {
             if (warmthLevel < warmthMax)
             {
-                yield return new WaitForSeconds(2f);
-                warmthLevel += 2f;
+                yield return new WaitForSeconds(1f);
+                warmthLevel += 4f;
                 StopCoroutine(warmthUp());
                 StartCoroutine(warmthUp());
             }
