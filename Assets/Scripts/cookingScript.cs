@@ -85,11 +85,12 @@ public class cookingScript : MonoBehaviour
 
     public IEnumerator StartFurnance()
     {
+        StopCoroutine(StartFurnance());
         if (fuelValue > 0)
         {
             furnaceOn = true;
             furnaceLight.SetActive(true);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             fuelValue--;
             Debug.Log("Fuel " + fuelValue);
             StartCoroutine(StartFurnance());

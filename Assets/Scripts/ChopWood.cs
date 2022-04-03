@@ -11,6 +11,7 @@ public class ChopWood : MonoBehaviour
 
     public int amountOfHits;
     public int treeHealth;
+    public int currenPointIndex = 999;
 
     public Transform logTransform;
 
@@ -32,20 +33,27 @@ public class ChopWood : MonoBehaviour
 
     public void NewHitPoint()
     {
-        amountOfHits++;
-        player.GetComponent<playerStats>().hungerLevel -= 2f;
-        foreach (GameObject hitPoint in hitPoints)
-        {
-            hitPoint.SetActive(false);
-        }
         int activeHitPoint = Random.Range(0,(hitPoints.Length - 1));
-        hitPoints[activeHitPoint].SetActive(true);
-
-        if (amountOfHits == treeHealth)
+        if(currenPointIndex != activeHitPoint)
         {
-            Destroy(gameObject);
-            Rigidbody clone;
-            clone = Instantiate(log, logTransform.position, Quaternion.identity);
+            amountOfHits++;
+            player.GetComponent<playerStats>().hungerLevel -= 2f;
+            foreach (GameObject hitPoint in hitPoints)
+            {
+                hitPoint.SetActive(false);
+            }
+            currenPointIndex = activeHitPoint;
+            hitPoints[activeHitPoint].SetActive(true);
+            if (amountOfHits == treeHealth)
+            {
+                Destroy(gameObject);
+                Rigidbody clone;
+                clone = Instantiate(log, logTransform.position, Quaternion.identity);
+            }
+        }
+        else
+        {
+            NewHitPoint();
         }
     }
 }
