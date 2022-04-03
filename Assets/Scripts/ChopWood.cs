@@ -23,12 +23,13 @@ public class ChopWood : MonoBehaviour
             hitPoint.SetActive(false);
         }
         NewHitPoint();
+        treeHealth = Random.Range(4,7);
     }
 
     // Update is called once per frame
     void Update()
     {
-        treeHealth = Random.Range(4,7);
+        
     }
 
     public void NewHitPoint()
@@ -48,6 +49,7 @@ public class ChopWood : MonoBehaviour
             {
                 Destroy(gameObject);
                 Rigidbody clone;
+                clone = Instantiate(log, logTransform.position, Quaternion.identity);
                 clone = Instantiate(log, logTransform.position, Quaternion.identity);
             }
         }

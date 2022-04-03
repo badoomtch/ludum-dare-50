@@ -22,6 +22,8 @@ public class playerStats : MonoBehaviour
     {
         StartCoroutine(hungerDown());
         StartCoroutine(warmthDown());
+        hungerLevel = hungerLevelMax;
+        warmthLevel = warmthMax;
     }
 
     // Update is called once per frame
@@ -42,11 +44,13 @@ public class playerStats : MonoBehaviour
 
     IEnumerator hungerDown()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         hungerLevel--;
+        StopCoroutine(hungerDown());
         StartCoroutine(hungerDown());
         if (hungerLevel <= 0)
         {
+            gameManager.GetComponent<GameManager>().winDeathText.text = "You died from hunger. \n Did you know there's a chance to catch more than 1 fish at a time?";
             gameManager.GetComponent<GameManager>().PlayerDeath();
         }
     }
@@ -57,9 +61,11 @@ public class playerStats : MonoBehaviour
         {
             warmthLevel--;
             yield return new WaitForSeconds(1f);
+            StopCoroutine(warmthDown());
             StartCoroutine(warmthDown());
             if (warmthLevel <= 0)
             {
+                gameManager.GetComponent<GameManager>().winDeathText.text = "You froze solid. \n I would recommend cutting trees and using them for warmth by your furnace.";
                 gameManager.GetComponent<GameManager>().PlayerDeath();
             }
         }
@@ -71,8 +77,9 @@ public class playerStats : MonoBehaviour
         {
             if (warmthLevel < warmthMax)
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(2f);
                 warmthLevel += 2f;
+                StopCoroutine(warmthUp());
                 StartCoroutine(warmthUp());
             }
         }

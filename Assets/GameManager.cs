@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     public void playerWin()
     {
         Debug.Log("Player has won");
+        winDeathText.text = "Congratulations you got rescued and survived! \n You managed your time and resources well!";
         Time.timeScale = 0;
         deathScreenUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;

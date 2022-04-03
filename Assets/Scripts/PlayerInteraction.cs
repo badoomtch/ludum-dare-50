@@ -53,7 +53,7 @@ public class PlayerInteraction : MonoBehaviour
             }
             else if (hit.transform.CompareTag("FryingPan"))
             {
-                if(caughtFish > 0 && !furnace.GetComponent<cookingScript>().isCooking)
+                if(caughtFish > 0 && !furnace.GetComponent<cookingScript>().isCooking && furnace.GetComponent<cookingScript>().fuelValue > 0)
                 {
                     helpText.text = "Cook fish";
                     if (Input.GetMouseButtonDown(0))
@@ -62,6 +62,10 @@ public class PlayerInteraction : MonoBehaviour
                         StartCoroutine(furnace.GetComponent<cookingScript>().startCooking());
                         caughtFish--;
                     }
+                }
+                else if(caughtFish > 0 && !furnace.GetComponent<cookingScript>().isCooking && furnace.GetComponent<cookingScript>().fuelValue <= 0)
+                {
+                    helpText.text = "You have no fuel";
                 }
                 else if(furnace.GetComponent<cookingScript>().isCooking)
                 {
@@ -75,7 +79,7 @@ public class PlayerInteraction : MonoBehaviour
             }
             else if (hit.transform.CompareTag("cookingFish"))
             {
-                if (furnace.GetComponent<cookingScript>().hasCooked == false && furnace.GetComponent<cookingScript>().hasBurned == false)
+                /* if (furnace.GetComponent<cookingScript>().hasCooked == false && furnace.GetComponent<cookingScript>().hasBurned == false)
                 {
                     helpText.text = "Pick up raw fish";
                     if (Input.GetMouseButtonDown(0))
@@ -83,8 +87,8 @@ public class PlayerInteraction : MonoBehaviour
                         caughtFish++;
                         furnace.GetComponent<cookingScript>().StopCooking();
                     }
-                }
-                else if(furnace.GetComponent<cookingScript>().hasCooked == true)
+                } */
+                if(furnace.GetComponent<cookingScript>().hasCooked == true)
                 {
                     helpText.text = "Prepare cooked fish";
                     if (Input.GetMouseButtonDown(0))
@@ -106,7 +110,7 @@ public class PlayerInteraction : MonoBehaviour
                 helpText.text = "Click to eat fish";
                 if (Input.GetMouseButtonDown(0))
                 {   
-                    this.GetComponentInParent<playerStats>().eatFood(30f);
+                    this.GetComponentInParent<playerStats>().eatFood(50f);
                     Destroy(hit.transform.gameObject);
                 }
             }
