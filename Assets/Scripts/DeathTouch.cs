@@ -10,6 +10,7 @@ public class DeathTouch : MonoBehaviour
     {
         if(collision.collider.tag == "Player")
         {
+            gameManager.GetComponent<GameManager>().winDeathText.text = "That swim was a bit too cold to survive";
             gameManager.GetComponent<GameManager>().PlayerDeath();
         }
     }

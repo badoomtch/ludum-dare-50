@@ -110,7 +110,7 @@ public class PlayerInteraction : MonoBehaviour
                 helpText.text = "Click to eat fish";
                 if (Input.GetMouseButtonDown(0))
                 {   
-                    this.GetComponentInParent<playerStats>().eatFood(70f);
+                    this.GetComponentInParent<playerStats>().eatFood(60f);
                     Destroy(hit.transform.gameObject);
                 }
             }

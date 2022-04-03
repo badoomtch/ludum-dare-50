@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,10 +29,14 @@ public class GameManager : MonoBehaviour
     public float gameVolume;
     public float fovValue;
 
+    private Animation anim;
+    public GameObject blackFadePanel;
+
     // Start is called before the first frame update
     void Start()
     {
         pauseMenu.SetActive(false);
+        blackFadePanel.SetActive(false);
         sensSlider.value = player.GetComponent<SUPERCharacter.SUPERCharacterAIO>().Sensitivity;
         fovSlider.value = playerCamera.GetComponent<Camera>().fieldOfView;
 
@@ -81,7 +86,6 @@ public class GameManager : MonoBehaviour
                 Cursor.visible = false;
                 isPaused = false;
             }
-
         }
     }
 
@@ -99,13 +103,21 @@ public class GameManager : MonoBehaviour
         deathScreenUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        blackFadePanel.SetActive(true);
     }
 
     public void playerWin()
     {
+        blackFadePanel.SetActive(true);
         Debug.Log("Player has won");
-        winDeathText.text = "Congratulations you got rescued and survived! \n You managed your time and resources well!";
+        StartCoroutine(WaitToWin());
+    }
+
+    IEnumerator WaitToWin()
+    {
+        yield return new WaitForSeconds(3f);
         Time.timeScale = 0;
+        winDeathText.text = "You survived untill the SS Icebreaker arrived. Sadly it didn't stop in time and you perished. \n You managed your time and resources well!";
         deathScreenUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
