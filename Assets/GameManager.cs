@@ -99,11 +99,11 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDeath()
     {
-        Time.timeScale = 0;
+        /* Time.timeScale = 0;
         deathScreenUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        blackFadePanel.SetActive(true);
+        blackFadePanel.SetActive(true); */
     }
 
     public void playerWin()
