@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    public AudioSource backgroundMusic;
+
     public GameObject deathScreenUI;
     public TextMeshProUGUI winDeathText;
 
@@ -35,6 +37,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        backgroundMusic.Play();
+        volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         pauseMenu.SetActive(false);
         blackFadePanel.SetActive(false);
         sensSlider.value = player.GetComponent<SUPERCharacter.SUPERCharacterAIO>().Sensitivity;
@@ -49,6 +53,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        backgroundMusic.volume = volumeSlider.value;
         playerCamera.GetComponent<Camera>().fieldOfView = fovSlider.value;
         player.GetComponent<SUPERCharacter.SUPERCharacterAIO>().Sensitivity = sensSlider.value;
 
@@ -99,11 +104,11 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDeath()
     {
-        /* Time.timeScale = 0;
+        Time.timeScale = 0;
         deathScreenUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        blackFadePanel.SetActive(true); */
+        blackFadePanel.SetActive(true);
     }
 
     public void playerWin()

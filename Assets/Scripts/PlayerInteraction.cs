@@ -17,6 +17,11 @@ public class PlayerInteraction : MonoBehaviour
     public GameObject furnace;
     public GameObject hitParticle;
 
+    public AudioSource audioSource;
+    public AudioClip woodHit;
+    public AudioClip eatingFish;
+    public AudioClip interact;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +43,7 @@ public class PlayerInteraction : MonoBehaviour
                 helpText.text = "Click to pick up";
                 if (Input.GetMouseButtonDown(0))
                 {   
+                    audioSource.PlayOneShot(interact, PlayerPrefs.GetFloat("MusicVolume"));
                     caughtFish++;
                     Destroy(hit.transform.gameObject);
                 }
@@ -47,6 +53,7 @@ public class PlayerInteraction : MonoBehaviour
                 helpText.text = "Click to pick up";
                 if (Input.GetMouseButtonDown(0))
                 {   
+                    audioSource.PlayOneShot(interact, PlayerPrefs.GetFloat("MusicVolume"));
                     woodCollected++;
                     Destroy(hit.transform.gameObject);
                 }
@@ -62,6 +69,7 @@ public class PlayerInteraction : MonoBehaviour
                     helpText.text = "Cook fish";
                     if (Input.GetMouseButtonDown(0))
                     {
+                        audioSource.PlayOneShot(interact, PlayerPrefs.GetFloat("MusicVolume"));
                         furnace.GetComponent<cookingScript>().isCooking = true;
                         StartCoroutine(furnace.GetComponent<cookingScript>().startCooking());
                         caughtFish--;
@@ -93,6 +101,7 @@ public class PlayerInteraction : MonoBehaviour
                     helpText.text = "Prepare cooked fish";
                     if (Input.GetMouseButtonDown(0))
                     {
+                        audioSource.PlayOneShot(interact, PlayerPrefs.GetFloat("MusicVolume"));
                         furnace.GetComponent<cookingScript>().PrepareCookedFish();
                     }
                 }
@@ -101,6 +110,7 @@ public class PlayerInteraction : MonoBehaviour
                     helpText.text = "Dispose of burned fish";
                     if (Input.GetMouseButtonDown(0))
                     {
+                        audioSource.PlayOneShot(interact, PlayerPrefs.GetFloat("MusicVolume"));
                         furnace.GetComponent<cookingScript>().StopCooking();
                     }
                 }
@@ -110,6 +120,7 @@ public class PlayerInteraction : MonoBehaviour
                 helpText.text = "Click to eat fish";
                 if (Input.GetMouseButtonDown(0))
                 {   
+                    audioSource.PlayOneShot(eatingFish, PlayerPrefs.GetFloat("MusicVolume"));
                     this.GetComponentInParent<playerStats>().eatFood(60f);
                     Destroy(hit.transform.gameObject);
                 }
@@ -121,6 +132,7 @@ public class PlayerInteraction : MonoBehaviour
                     helpText.text = "Click to add wood fuel";
                     if (Input.GetMouseButtonDown(0))
                     {   
+                        audioSource.PlayOneShot(interact, PlayerPrefs.GetFloat("MusicVolume"));
                         woodCollected--;
                         furnace.GetComponent<cookingScript>().fuelValue += 30f;
                         StartCoroutine(furnace.GetComponent<cookingScript>().StartFurnance());
@@ -137,6 +149,7 @@ public class PlayerInteraction : MonoBehaviour
                 helpText.text = "Click to chop wood";
                 if (Input.GetMouseButtonDown(0))
                 {   
+                    audioSource.PlayOneShot(woodHit, PlayerPrefs.GetFloat("MusicVolume") * 2);
                     hit.transform.GetComponentInParent<ChopWood>().NewHitPoint();
                     Debug.Log("Wood hit " + hit.transform.GetComponentInParent<ChopWood>().amountOfHits);
                     GameObject clone;
