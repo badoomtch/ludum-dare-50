@@ -109,6 +109,24 @@ public class PlayerInteraction : MonoBehaviour
                     Destroy(hit.transform.gameObject);
                 }
             }
+            else if (hit.transform.CompareTag("Furnace"))
+            {
+                if (woodCollected > 0)
+                {
+                    helpText.text = "Click to add wood fuel";
+                    if (Input.GetMouseButtonDown(0))
+                    {   
+                        woodCollected--;
+                        furnace.GetComponent<cookingScript>().fuelValue += 30f;
+                        StartCoroutine(furnace.GetComponent<cookingScript>().StartFurnance());
+                        StartCoroutine(this.GetComponentInParent<playerStats>().warmthUp());
+                    }
+                }
+                else
+                {
+                    helpText.text = "You need wood for fuel";
+                }
+            }
             else
             {
                 helpText.text = "";

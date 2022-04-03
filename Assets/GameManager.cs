@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,16 +19,21 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void playerDeath()
+    public void PlayerDeath()
     {
         Time.timeScale = 0;
         deathScreenUI.SetActive(true);
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-    public void startGame()
+    public void StartGame()
     {
-        
+        SceneManager.LoadScene("MainScene");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

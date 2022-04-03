@@ -7,13 +7,20 @@ public class cookingScript : MonoBehaviour
     public bool isCooking;
     public bool hasCooked;
     public bool hasBurned;
+
+    public bool furnaceOn;
+
+
+    public float fuelValue;
+
     public Transform fishOut;
 
     public GameObject furnaceLight;
-
     public GameObject cookingFish;
-
     public GameObject cookingParticle;
+
+    public GameObject player;
+    public GameObject warmthTrigger;
 
     //Instantiatable objects
     public Rigidbody cookedFish;
@@ -44,14 +51,16 @@ public class cookingScript : MonoBehaviour
 
     public IEnumerator startCooking()
     {
-        cookingParticle.SetActive(true);
-        furnaceLight.SetActive(true);
-        cookingFish.SetActive(true);
-        float random = Random.Range(10f,21f);
-        yield return new WaitForSeconds(random);
-        cookingFish.GetComponent<Renderer>().material.color = new Color32(255, 152, 0, 255);
-        hasCooked = true;
-        StartCoroutine(startBurning());
+        if (fuelValue > 0)
+        {
+            cookingFish.SetActive(true);
+            cookingParticle.SetActive(true);
+            float random = Random.Range(10f,21f);
+            yield return new WaitForSeconds(random);
+            cookingFish.GetComponent<Renderer>().material.color = new Color32(255, 152, 0, 255);
+            hasCooked = true;
+            StartCoroutine(startBurning());
+        }
     }
 
     public IEnumerator startBurning()
@@ -73,5 +82,25 @@ public class cookingScript : MonoBehaviour
         Rigidbody clone;
         clone = Instantiate(cookedFish, fishOut.position, Quaternion.identity);
         StopCooking();
+    }
+
+    public IEnumerator StartFurnance()
+    {
+        if (fuelValue > 0)
+        {
+            furnaceOn = true;
+            furnaceLight.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            fuelValue--;
+            Debug.Log("Fuel " + fuelValue);
+            StartCoroutine(StartFurnance());
+        }
+        else if (fuelValue <= 0)
+        {
+            furnaceOn = false;
+            StopCoroutine(StartFurnance());
+            furnaceLight.SetActive(false);
+            StartCoroutine(player.GetComponent<playerStats>().warmthDown()); 
+        }
     }
 }
